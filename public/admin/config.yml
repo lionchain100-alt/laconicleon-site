@@ -18,6 +18,9 @@ collections:
       - { label: 摘要, name: description, widget: text }
       - { label: 发布日期, name: publishedAt, widget: datetime, format: "YYYY-MM-DD" }
       - { label: 草稿, name: draft, widget: boolean, default: false, required: false }
+      - { label: 首页精选, name: featured, widget: boolean, default: false, required: false }
+      - { label: 分类, name: category, widget: string, default: "写作", required: false }
+      - { label: 封面图, name: cover, widget: image, required: false }
       - { label: 标签, name: tags, widget: list, required: false }
       - { label: 语言, name: language, widget: select, options: ["zh", "en"], default: "zh" }
       - { label: 翻译编号, name: translationKey, widget: string, required: false, hint: "中英文版本使用同一编号，例如 png-to-pdf" }

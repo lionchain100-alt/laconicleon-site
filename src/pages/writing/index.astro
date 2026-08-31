@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+const zhTags = [...new Set(posts.filter((post) => post.data.language === 'zh').flatMap((post) => post.data.tags))].slice(0, 6);
+const enTags = [...new Set(posts.filter((post) => post.data.language === 'en').flatMap((post) => post.data.tags))].slice(0, 6);
+const years = [...new Set(posts.map((post) => post.data.publishedAt.getFullYear()))].sort((a, b) => b - a);
+const readMinutes = (body: string) => Math.max(1, Math.ceil(body.replace(/\s/g, '').length / 500));
+---
+
+<BaseLayout title="文章 — laconicleon" description="Leon Reed / 简练的文章归档。">
+  <main>
+    <header>
+      <a class="brand" href="/"><img src="/brand-seal-vertical.png" alt="练"/><span>laconicleon</span></a>
+      <nav><a href="/writing" class="active"><span class="zh">文章</span><span class="en" hidden>Writing</span></a><a href="/projects"><span class="zh">项目</span><span class="en" hidden>Projects</span></a><a href="/about"><span class="zh">关于</span><span class="en" hidden>About</span></a></nav>
+      <button id="lang" aria-label="switch language">中 <i>/</i> EN</button>
+    </header>
+    <section class="intro"><h1 class="zh">文章</h1><h1 class="en" hidden>Writing</h1><p class="zh">把正在形成的想法，写成可以回看的文字。</p><p class="en" hidden>Notes on clear thinking, durable systems, and careful work.</p></section>
+    <section class="library">
+      <div class="tools"><label><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜索文章" /></label><div class="filters"><button class="filter active" data-filter="all"><span class="zh">全部</span><span class="en" hidden>All</span></button>{zhTags.map((tag) => <button class="filter zh" data-filter={tag}>{tag}</button>)}{enTags.map((tag) => <button class="filter en" data-filter={tag} hidden>{tag}</button>)}</div></div>
+      <div class="list">
+        {posts.map((post) => <a class="post" href={`/writing/${post.id}`} data-language={post.data.language} data-tags={post.data.tags.join('|').toLowerCase()} data-year={post.data.publishedAt.getFullYear()}><time>{post.data.publishedAt.toLocaleDateString(post.data.language === 'zh' ? 'zh-CN' : 'en-GB', { year:'numeric', month:'2-digit', day:'2-digit' }).replaceAll('/','.')}</time><div><h2>{post.data.title}</h2><p>{post.data.description}</p></div><small>{readMinutes(post.body ?? '')} <span class="zh">分钟阅读</span><span class="en" hidden>min read</span></small><b aria-hidden="true">→</b></a>)}
+      </div>
+      <aside><p class="zh">年份</p><p class="en" hidden>Year</p>{years.map((year) => <button data-year-link={year}>{year}</button>)}</aside>
+    </section>
+    <p class="empty" hidden><span class="zh">没有找到匹配的文章。</span><span class="en" hidden>No matching essays found.</span></p>
+  </main>
+  <script>
+    let language: 'zh' | 'en' = localStorage.getItem('laconicleon-language') === 'en' ? 'en' : 'zh';
+    let filter = 'all'; let query = '';
+    const rows = [...document.querySelectorAll<HTMLElement>('.post')];
+    const refresh = () => {
+      document.documentElement.lang = language === 'en' ? 'en' : 'zh-CN';
+      document.querySelectorAll<HTMLElement>('.zh,.en').forEach((node) => node.toggleAttribute('hidden', language === 'en' ? node.classList.contains('zh') : node.classList.contains('en')));
+      document.querySelector<HTMLInputElement>('#search')!.placeholder = language === 'en' ? 'Search writing' : '搜索文章';
+      let shown = 0;
+      rows.forEach((row) => { const matches = row.dataset.language === language && (filter === 'all' || row.dataset.tags?.includes(filter.toLowerCase())) && row.textContent?.toLowerCase().includes(query); row.toggleAttribute('hidden', !matches); if (matches) shown += 1; });
+      document.querySelector<HTMLElement>('.empty')?.toggleAttribute('hidden', shown !== 0);
+      localStorage.setItem('laconicleon-language', language);
+    };
+    document.querySelector<HTMLInputElement>('#search')?.addEventListener('input', (event) => { query = (event.currentTarget.value || '').toLowerCase(); refresh(); });
+    document.querySelectorAll<HTMLButtonElement>('.filter').forEach((button) => button.addEventListener('click', () => { filter = button.dataset.filter || 'all'; document.querySelectorAll('.filter').forEach((item) => item.classList.toggle('active', item === button)); refresh(); }));
+    document.querySelectorAll<HTMLButtonElement>('[data-year-link]').forEach((button) => button.addEventListener('click', () => { query = ''; const field = document.querySelector<HTMLInputElement>('#search'); if (field) field.value = ''; rows.find((row) => !row.hidden && row.dataset.year === button.dataset.yearLink)?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }));
+    document.querySelector('#lang')?.addEventListener('click', () => { language = language === 'en' ? 'zh' : 'en'; refresh(); }); refresh();
+  </script>
+</BaseLayout>
+
+<style>
+  [hidden]{display:none!important}main{max-width:1450px;margin:auto;padding:0 42px}header{height:105px;display:flex;align-items:center;border-bottom:1px solid var(--ink)}.brand{display:flex;align-items:center;gap:16px;font:500 31px var(--display)}.brand img{width:38px;height:55px;object-fit:contain}nav{display:flex;gap:43px;margin-left:auto;font:16px var(--serif)}nav a{padding:11px 0;border-bottom:2px solid transparent}nav a.active{color:var(--accent);border-color:var(--accent)}#lang{margin-left:42px;border:0;background:none;cursor:pointer;font:14px var(--mono)}#lang i{color:var(--accent);font-style:normal}.intro{padding:68px 4% 46px;border-bottom:1px solid var(--ink)}.intro h1{font:500 clamp(58px,8vw,106px)/1 var(--serif);letter-spacing:-.08em;margin:0}.intro p{margin:22px 0 0;font:17px var(--serif);color:var(--muted)}.library{display:grid;grid-template-columns:minmax(0,1fr) 116px;gap:52px;padding:35px 4% 90px}.tools,.list{grid-column:1}.tools{border-bottom:1px solid var(--ink)}label{height:58px;border:1px solid var(--ink);display:flex;align-items:center;padding:0 18px;gap:12px}label span{font:34px/1 var(--serif)}input{width:100%;border:0;outline:0;background:transparent;font:18px var(--serif)}.filters{display:flex;gap:31px;padding:21px 0 13px;overflow:auto}.filter,aside button{border:0;background:none;padding:0;cursor:pointer;font:16px var(--serif);white-space:nowrap}.filter.active{color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:10px}.post{display:grid;grid-template-columns:140px minmax(0,1fr) 100px 24px;gap:22px;align-items:center;padding:28px 9px;border-bottom:1px solid var(--line)}.post:hover{background:#fafafa}.post time{font:13px var(--mono);color:var(--accent)}.post h2{font:500 28px/1.25 var(--serif);margin:0}.post p{font:16px/1.55 var(--serif);color:var(--muted);margin:8px 0 0}.post small{font:12px var(--mono);color:var(--muted)}.post b{font:24px var(--sans);font-weight:400}aside{grid-column:2;grid-row:1/span 2;border-left:1px solid var(--ink);padding-left:24px}aside p{font:12px var(--mono);color:var(--accent);margin:0 0 18px}aside button{display:block;margin:0 0 19px}aside button:hover{color:var(--accent)}.empty{margin:0 4% 90px;font:18px var(--serif);color:var(--muted)}@media(max-width:760px){main{padding:0 20px}header{height:75px}.brand{font-size:25px}.brand img{width:29px;height:43px}nav{display:none}#lang{margin-left:auto}.intro{padding:49px 0 34px}.intro h1{font-size:67px}.library{display:block;padding:25px 0 58px}.filters{gap:22px}.post{grid-template-columns:1fr 20px;padding:21px 0}.post time,.post small{display:none}.post h2{font-size:21px}aside{display:none}}</style>
