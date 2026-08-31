@@ -1,5 +1,5 @@
 ---
-title: 在浏览器里把 PNG 合并成 PDF
+title: 怎么把PNG图片合并成 PDF
 description: 不用账号、不加水印，把多张 PNG、JPG 或 JPEG 按顺序合并成一个 PDF。
 publishedAt: 2026-08-31
 draft: false
