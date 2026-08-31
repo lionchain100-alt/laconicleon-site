@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+export async function getStaticPaths() { return (await getCollection('posts')).map((post) => ({ params: { slug: post.id }, props: { post } })); }
+const { post } = Astro.props; const { Content } = await render(post);
+---
+<BaseLayout title={`${post.data.title} — laconicleon`}><article><a href="/">← 返回首页</a><p>{post.data.publishedAt.toLocaleDateString('zh-CN')}</p><h1>{post.data.title}</h1><div class="body"><Content /></div></article></BaseLayout>
+<style>article{max-width:760px;margin:0 auto;padding:60px 24px;font-family:var(--serif)}article>a{color:#bd2d2d}article>p{font-family:var(--mono);font-size:12px;margin-top:58px}h1{font-size:48px;font-weight:500;line-height:1.25;margin:14px 0 45px}.body{font-size:20px;line-height:2}@media(max-width:600px){article{padding-top:35px}h1{font-size:36px}}</style>

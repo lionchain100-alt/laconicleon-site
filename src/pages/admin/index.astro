@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+<BaseLayout title="laconicleon 编辑后台">
+  <div class="loading">正在加载编辑后台…</div>
+  <script is:inline src="https://unpkg.com/decap-cms@3.8.1/dist/decap-cms.js"></script>
+</BaseLayout>
+<style>.loading{min-height:100vh;display:grid;place-items:center;font:18px var(--serif);color:#555}</style>
