@@ -2,7 +2,18 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
 <BaseLayout title="laconicleon 编辑后台">
-  <div class="loading">正在加载编辑后台…</div>
-  <script is:inline src="https://unpkg.com/decap-cms@3.8.1/dist/decap-cms.js"></script>
+  <div id="nc-root"><div class="loading" id="cms-loading">正在加载编辑后台…</div></div>
+  <script is:inline>window.CMS_MANUAL_INIT = true;</script>
+  <script is:inline defer src="https://unpkg.com/decap-cms@3.15.1/dist/decap-cms.js"></script>
+  <script is:inline>
+    window.addEventListener('DOMContentLoaded', () => {
+      const loading = document.getElementById('cms-loading');
+      if (typeof window.initCMS === 'function') {
+        window.initCMS();
+      } else if (loading) {
+        loading.textContent = '编辑后台加载失败，请刷新页面后重试。';
+      }
+    });
+  </script>
 </BaseLayout>
 <style>.loading{min-height:100vh;display:grid;place-items:center;font:18px var(--serif);color:#555}</style>
