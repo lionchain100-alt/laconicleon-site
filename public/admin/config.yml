@@ -8,6 +8,24 @@ backend:
 media_folder: public/uploads
 public_folder: /uploads
 collections:
+  - name: site_settings
+    label: 网站设置
+    files:
+      - name: projects
+        label: GitHub 项目同步
+        file: src/data/project-settings.json
+        fields:
+          - label: 要同步的公开 GitHub 项目
+            name: selectedProjects
+            widget: select
+            multiple: true
+            options:
+              - { label: "Image to Text", value: "image-to-text" }
+              - { label: "Handwriting to Notion", value: "handwriting-to-notion" }
+              - { label: "BioLink Pro", value: "biolink-pro" }
+              - { label: "Note OCR Backend", value: "note-ocr-backend" }
+              - { label: "Codex 橙皮书", value: "codex-orange-book" }
+              - { label: "Laconicleon Site", value: "laconicleon-site" }
   - name: posts
     label: 文章
     folder: src/content/posts
