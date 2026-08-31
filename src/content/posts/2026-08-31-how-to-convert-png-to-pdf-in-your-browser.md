@@ -10,6 +10,8 @@ tags:
   - Browser Tools
   - PDF
   - Productivity
+language: en
+translationKey: png-to-pdf
 ---
 When several PNG images need to become one document, the main challenge is often keeping the pages in the correct order. A browser-based PNG-to-PDF tool can be a practical option when you want a quick result without installing software or creating another account.
 
