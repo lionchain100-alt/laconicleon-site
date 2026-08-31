@@ -26,6 +26,14 @@ collections:
               - { label: "Note OCR Backend", value: "note-ocr-backend" }
               - { label: "Codex 橙皮书", value: "codex-orange-book" }
               - { label: "Laconicleon Site", value: "laconicleon-site" }
+              - { label: "Calculator Toolkit（私有）", value: "calculator-toolkit" }
+              - { label: "Seating Chart Maker（私有）", value: "seating-chart-maker" }
+              - { label: "Move Playbook（私有）", value: "moveplaybook" }
+              - { label: "Bingo Card Generator（私有）", value: "bingo-card-generator" }
+              - { label: "BacklinkOpsKit（私有）", value: "BacklinkOpsKit" }
+              - { label: "Personal Site Opportunity Research System（私有）", value: "personal-site-opportunity-research-system" }
+              - { label: "Printable Family Chart Cluster（私有）", value: "printable-family-chart-cluster" }
+              - { label: "WeddingSpeechKit（私有）", value: "WeddingSpeechKit" }
   - name: posts
     label: 文章
     folder: src/content/posts

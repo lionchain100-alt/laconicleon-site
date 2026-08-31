@@ -4,9 +4,10 @@ import settings from '../data/project-settings.json';
 
 interface GitHubProject { name: string; description: string | null; html_url: string; updated_at: string; stargazers_count: number; primary_language: string | null; }
 const selectedProjects = settings.selectedProjects ?? [];
+const githubHeaders = { Accept: 'application/vnd.github+json', 'User-Agent': 'laconicleon-site', ...(process.env.GH_PROJECTS_TOKEN ? { Authorization: `Bearer ${process.env.GH_PROJECTS_TOKEN}` } : {}) };
 const fetched = await Promise.all(selectedProjects.map(async (name) => {
   try {
-    const response = await fetch(`https://api.github.com/repos/lionchain100-alt/${encodeURIComponent(name)}`, { headers: { Accept: 'application/vnd.github+json', 'User-Agent': 'laconicleon-site' } });
+    const response = await fetch(`https://api.github.com/repos/lionchain100-alt/${encodeURIComponent(name)}`, { headers: githubHeaders });
     return response.ok ? await response.json() as GitHubProject : null;
   } catch { return null; }
 }));

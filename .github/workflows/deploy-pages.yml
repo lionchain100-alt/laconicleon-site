@@ -25,6 +25,8 @@ jobs:
 
       - run: npm ci
       - run: npm run build
+        env:
+          GH_PROJECTS_TOKEN: ${{ secrets.GH_PROJECTS_TOKEN }}
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
