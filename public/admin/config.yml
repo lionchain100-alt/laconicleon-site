@@ -1,9 +1,9 @@
-# 发布前请将 repo 与 base_url 改为你的 GitHub 仓库和正式域名。
+# GitHub OAuth 凭据配置完成后，后台可在 /admin 使用。
 backend:
   name: github
-  repo: YOUR_GITHUB_USERNAME/YOUR_REPOSITORY
+  repo: lionchain100-alt/laconicleon-site
   branch: main
-  base_url: https://YOUR-DOMAIN
+  base_url: https://laconicleon.com
   auth_endpoint: api/auth
 media_folder: public/uploads
 public_folder: /uploads
