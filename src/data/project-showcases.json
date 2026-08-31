@@ -1,3 +1,13 @@
 {
-  "projects": []
+  "projects": [
+    {
+      "name": "seating-chart-maker",
+      "visibility": "private",
+      "status": "published",
+      "summaryZh": "婚礼座位安排工具",
+      "summaryEn": "Wedding seating chart maker project",
+      "demoUrl": "https://seatingkit.com/",
+      "updatedAt": "2026-08-31T13:35:50.548Z"
+    }
+  ]
 }
