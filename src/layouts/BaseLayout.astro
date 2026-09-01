@@ -6,6 +6,7 @@ interface Props {
   canonicalPath?: string;
   image?: string;
   type?: 'website' | 'article';
+  indexable?: boolean;
 }
 
 const siteUrl = 'https://laconicleon.com';
@@ -16,6 +17,7 @@ const {
   canonicalPath = Astro.url.pathname,
   image = '/ink-lion-hero.png',
   type = 'website',
+  indexable = true,
 } = Astro.props;
 const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
 const imageUrl = new URL(image, siteUrl).toString();
@@ -29,6 +31,7 @@ const locale = lang === 'en' ? 'en_US' : 'zh_CN';
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#ffffff" />
+    {!indexable && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonicalUrl} />
     <meta property="og:type" content={type} />
     <meta property="og:site_name" content="laconicleon" />
