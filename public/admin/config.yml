@@ -24,4 +24,4 @@ collections:
       - { label: 标签, name: tags, widget: list, required: false }
       - { label: 语言, name: language, widget: select, options: ["zh", "en"], default: "zh" }
       - { label: 翻译编号, name: translationKey, widget: string, required: false, hint: "中英文版本使用同一编号，例如 png-to-pdf" }
-      - { label: 正文, name: body, widget: markdown }
+      - { label: 正文, name: body, widget: markdown, hint: "页面会自动显示上方标题；正文请从引言或二级标题开始，不要再写一级标题。" }

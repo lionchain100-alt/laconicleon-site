@@ -16,7 +16,14 @@ const translation = post.data.translationKey ? allPosts.find((entry) => entry.da
 const date = post.data.publishedAt.toLocaleDateString(isZh ? 'zh-CN' : 'en-GB', { year:'numeric', month:'long', day:'numeric' });
 const minutes = Math.max(1, Math.ceil((post.body ?? '').replace(/\s/g, '').length / 500));
 ---
-<BaseLayout title={`${post.data.title} — laconicleon`} description={post.data.description}>
+<BaseLayout
+  title={`${post.data.title} — laconicleon`}
+  description={post.data.description}
+  lang={isZh ? 'zh-CN' : 'en'}
+  canonicalPath={`/writing/${post.id}/`}
+  image={post.data.cover}
+  type="article"
+>
   <div class="progress" aria-hidden="true"><i></i></div>
   <article>
     <header><a class="brand" href="/"><img src="/brand-seal-vertical.png" alt="练"/><span>laconicleon</span></a><a class="back" href="/writing">← {isZh ? '返回文章' : 'Back to writing'}</a></header>

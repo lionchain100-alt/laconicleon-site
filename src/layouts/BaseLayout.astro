@@ -1,15 +1,47 @@
 ---
-interface Props { title?: string; description?: string }
-const { title = 'laconicleon — Leon Reed / 简练', description = 'Notes, systems, and things worth making.' } = Astro.props;
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: 'zh-CN' | 'en';
+  canonicalPath?: string;
+  image?: string;
+  type?: 'website' | 'article';
+}
+
+const siteUrl = 'https://laconicleon.com';
+const {
+  title = 'laconicleon — Leon Reed / 简练',
+  description = 'Notes, systems, and things worth making.',
+  lang = 'zh-CN',
+  canonicalPath = Astro.url.pathname,
+  image = '/ink-lion-hero.png',
+  type = 'website',
+} = Astro.props;
+const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
+const imageUrl = new URL(image, siteUrl).toString();
+const locale = lang === 'en' ? 'en_US' : 'zh_CN';
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#ffffff" />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="laconicleon" />
+    <meta property="og:locale" content={locale} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content={title} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
     <link rel="icon" type="image/png" href="/brand-seal-vertical.png" />
     <title>{title}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />

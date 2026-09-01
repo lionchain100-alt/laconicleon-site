@@ -19,8 +19,6 @@ language: en
 translationKey: tip-calculator-tax-split-bill-guide
 ---
 
-# How to Use a Tip Calculator With Tax and Split a Bill
-
 A tip calculator is most useful when it keeps the restaurant bill, tax, tip basis, service charge, and payer shares visible. The clearest method is to calculate one complete payment first, then split that finished total only if more than one person is paying.
 
 This guide uses an `$80.00` subtotal, `$8.00` of receipt tax, and a `20%` tip calculated from the pre-tax subtotal. You can follow the same example in the [Calculator Toolkit tip calculator](https://calculator-toolkit.com/), which runs the calculation locally in your browser and does not require an account.
