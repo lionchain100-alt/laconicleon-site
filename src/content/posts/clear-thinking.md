@@ -2,6 +2,7 @@
 title: 清晰思考的三层结构
 description: 一个帮助想法从模糊走向清楚的轻量模型。
 publishedAt: 2026-08-31
+theme: writing
 tags: [思考, 写作]
 ---
 先把问题写下来，再寻找关系，最后删去不必要的部分。

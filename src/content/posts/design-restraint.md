@@ -2,6 +2,7 @@
 title: 克制设计：留白、秩序与信息的重量
 description: 为什么少一点界面，有时反而能显出更多意图。
 publishedAt: 2026-08-04
+theme: writing
 tags: [设计]
 ---
 留白不是空缺，它让真正重要的部分有地方停留。

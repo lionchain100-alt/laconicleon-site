@@ -5,8 +5,14 @@ import { getCollection } from 'astro:content';
 const posts = (await getCollection('posts'))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
-const zhTags = [...new Set(posts.filter((post) => post.data.language === 'zh').flatMap((post) => post.data.tags))].slice(0, 6);
-const enTags = [...new Set(posts.filter((post) => post.data.language === 'en').flatMap((post) => post.data.tags))].slice(0, 6);
+const themes = [
+  { key: 'writing', zh: '写作', en: 'Writing' },
+  { key: 'tools', zh: '工具', en: 'Tools' },
+  { key: 'systems', zh: '系统', en: 'Systems' },
+  { key: 'notes', zh: '随笔', en: 'Notes' },
+];
+const zhThemes = themes.filter((theme) => posts.some((post) => post.data.language === 'zh' && post.data.theme === theme.key));
+const enThemes = themes.filter((theme) => posts.some((post) => post.data.language === 'en' && post.data.theme === theme.key));
 const readMinutes = (body: string) => Math.max(1, Math.ceil(body.replace(/\s/g, '').length / 500));
 ---
 
@@ -18,12 +24,12 @@ const readMinutes = (body: string) => Math.max(1, Math.ceil(body.replace(/\s/g, 
       <button id="lang" aria-label="switch language">中 <i>/</i> EN</button>
     </header>
     <section class="intro"><h1 class="zh">文章</h1><h1 class="en" hidden>Writing</h1><p class="zh">把正在形成的想法，写成可以回看的文字。</p><p class="en" hidden>Notes on clear thinking, durable systems, and careful work.</p></section>
-    {enTags.length > 0 && <button class="language-notice zh" id="show-english">另有英文原文，切换至英文版查看 →</button>}
-    {zhTags.length > 0 && <button class="language-notice en" id="show-chinese" hidden>Chinese originals available — switch to Chinese →</button>}
+    {enThemes.length > 0 && <button class="language-notice zh" id="show-english">另有英文原文，切换至英文版查看 →</button>}
+    {zhThemes.length > 0 && <button class="language-notice en" id="show-chinese" hidden>Chinese originals available — switch to Chinese →</button>}
     <section class="library">
-      <div class="tools"><label><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜索文章" /></label><div class="filters"><button class="filter active" data-filter="all"><span class="zh">全部</span><span class="en" hidden>All</span></button>{zhTags.map((tag) => <button class="filter zh" data-filter={tag}>{tag}</button>)}{enTags.map((tag) => <button class="filter en" data-filter={tag} hidden>{tag}</button>)}</div></div>
+      <div class="tools"><label><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜索文章" /></label><div class="filters"><button class="filter active" data-filter="all"><span class="zh">全部</span><span class="en" hidden>All</span></button>{zhThemes.map((theme) => <button class="filter zh" data-filter={theme.key}>{theme.zh}</button>)}{enThemes.map((theme) => <button class="filter en" data-filter={theme.key} hidden>{theme.en}</button>)}</div></div>
       <div class="list">
-        {posts.map((post) => <a class="post" href={`/writing/${post.id}`} data-language={post.data.language} data-tags={post.data.tags.join('|').toLowerCase()} data-year={post.data.publishedAt.getFullYear()}><time>{post.data.publishedAt.toLocaleDateString(post.data.language === 'zh' ? 'zh-CN' : 'en-GB', { year:'numeric', month:'2-digit', day:'2-digit' }).replaceAll('/','.')}</time><div><h2>{post.data.title}</h2><p>{post.data.description}</p></div><small>{readMinutes(post.body ?? '')} <span class="zh">分钟阅读</span><span class="en" hidden>min read</span></small><b aria-hidden="true">→</b></a>)}
+        {posts.map((post) => <a class="post" href={`/writing/${post.id}`} data-language={post.data.language} data-theme={post.data.theme}><time>{post.data.publishedAt.toLocaleDateString(post.data.language === 'zh' ? 'zh-CN' : 'en-GB', { year:'numeric', month:'2-digit', day:'2-digit' }).replaceAll('/','.')}</time><div><h2>{post.data.title}</h2><p>{post.data.description}</p></div><small>{readMinutes(post.body ?? '')} <span class="zh">分钟阅读</span><span class="en" hidden>min read</span></small><b aria-hidden="true">→</b></a>)}
       </div>
     </section>
     <p class="empty" hidden><span class="zh">没有找到匹配的文章。</span><span class="en" hidden>No matching essays found.</span></p>
@@ -37,15 +43,16 @@ const readMinutes = (body: string) => Math.max(1, Math.ceil(body.replace(/\s/g, 
       document.querySelectorAll<HTMLElement>('.zh,.en').forEach((node) => node.toggleAttribute('hidden', language === 'en' ? node.classList.contains('zh') : node.classList.contains('en')));
       document.querySelector<HTMLInputElement>('#search')!.placeholder = language === 'en' ? 'Search writing' : '搜索文章';
       let shown = 0;
-      rows.forEach((row) => { const matches = row.dataset.language === language && (filter === 'all' || row.dataset.tags?.includes(filter.toLowerCase())) && row.textContent?.toLowerCase().includes(query); row.toggleAttribute('hidden', !matches); if (matches) shown += 1; });
+      rows.forEach((row) => { const matches = row.dataset.language === language && (filter === 'all' || row.dataset.theme === filter) && row.textContent?.toLowerCase().includes(query); row.toggleAttribute('hidden', !matches); if (matches) shown += 1; });
       document.querySelector<HTMLElement>('.empty')?.toggleAttribute('hidden', shown !== 0);
       localStorage.setItem('laconicleon-language', language);
     };
     document.querySelector<HTMLInputElement>('#search')?.addEventListener('input', (event) => { query = (event.currentTarget.value || '').toLowerCase(); refresh(); });
     document.querySelectorAll<HTMLButtonElement>('.filter').forEach((button) => button.addEventListener('click', () => { filter = button.dataset.filter || 'all'; document.querySelectorAll('.filter').forEach((item) => item.classList.toggle('active', item === button)); refresh(); }));
-    document.querySelector('#lang')?.addEventListener('click', () => { language = language === 'en' ? 'zh' : 'en'; refresh(); }); refresh();
-    document.querySelector('#show-english')?.addEventListener('click', () => { language = 'en'; refresh(); });
-    document.querySelector('#show-chinese')?.addEventListener('click', () => { language = 'zh'; refresh(); });
+    const resetFilter = () => { filter = 'all'; document.querySelectorAll('.filter').forEach((item) => item.classList.toggle('active', item.dataset.filter === 'all')); };
+    document.querySelector('#lang')?.addEventListener('click', () => { language = language === 'en' ? 'zh' : 'en'; resetFilter(); refresh(); }); refresh();
+    document.querySelector('#show-english')?.addEventListener('click', () => { language = 'en'; resetFilter(); refresh(); });
+    document.querySelector('#show-chinese')?.addEventListener('click', () => { language = 'zh'; resetFilter(); refresh(); });
   </script>
 </BaseLayout>
 

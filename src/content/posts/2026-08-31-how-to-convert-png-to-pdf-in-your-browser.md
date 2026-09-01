@@ -5,6 +5,7 @@ description: Learn how to combine up to 50 PNG images into one ordered PDF in
   supported.
 publishedAt: 2026-08-31
 draft: false
+theme: tools
 tags:
   - PNG to PDF
   - Browser Tools

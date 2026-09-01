@@ -9,6 +9,7 @@ publishedAt: 2026-09-01
 draft: false
 featured: false
 category: 写作
+theme: tools
 cover: /uploads/calculator-toolkit-live-bill-tip-result-v1.png
 tags:
   - tip calculator

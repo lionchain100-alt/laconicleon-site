@@ -5,14 +5,13 @@ publishedAt: 2026-09-01
 draft: true
 featured: false
 category: 写作
+theme: tools
 cover: /uploads/calculator-toolkit-live-bill-tip-result-v1.png
 tags:
   - 写作
 language: zh
 translationKey: tip-calculator-tax-split-bill-guide
 ---
-
-# 如何使用含税小费计算器分摊账单
 
 小费计算器最实用的功能是能同时显示餐厅账单、税费、小费基数、服务费和付款人分摊情况。最清晰的方法是先计算一笔完整的付款金额，然后再将这笔最终总额分摊给多人。
 
