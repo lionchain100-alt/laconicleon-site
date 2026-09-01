@@ -22,7 +22,7 @@ const minutes = Math.max(1, Math.ceil((post.body ?? '').replace(/\s/g, '').lengt
     <header><a class="brand" href="/"><img src="/brand-seal-vertical.png" alt="练"/><span>laconicleon</span></a><a class="back" href="/writing">← {isZh ? '返回文章' : 'Back to writing'}</a></header>
     <div class="progress-label"><span>{isZh ? '阅读进度' : 'Reading progress'}</span><i></i></div>
     <div class="mast"><p>{isZh ? '写作 / 简练' : 'Writing / Leon Reed'}</p><h1>{post.data.title}</h1><div class="metadata"><span>{date}</span><span>{minutes} {isZh ? '分钟阅读' : 'min read'}</span><span>{post.data.tags.join(' · ')}</span></div>{translation && <a class="translation" href={`/writing/${translation.id}`}>{isZh ? '阅读英文版 ↗' : 'Read in Chinese ↗'}</a>}</div>
-    {post.data.cover && <figure class="cover"><img src={post.data.cover} alt={post.data.title} loading="eager" /></figure>}
+    {post.data.cover && <figure class="cover"><img src={`${post.data.cover}?v=${post.data.publishedAt.getTime()}`} alt={post.data.title} loading="eager" /></figure>}
     <div class="reading">
       <aside class="toc"><p>{isZh ? '目录' : 'Contents'}</p>{headings.length ? headings.filter((heading) => heading.depth <= 3).map((heading) => <a class:list={[`level-${heading.depth}`]} href={`#${heading.slug}`}>{heading.text}</a>) : <span>{isZh ? '本文' : 'Essay'}</span>}</aside>
       <div class="body"><Content /></div>
