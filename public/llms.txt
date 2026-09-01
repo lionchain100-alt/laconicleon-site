@@ -1,0 +1,24 @@
+# laconicleon
+
+> The personal writing and project site of Leon Reed, also writing as 简练. The site publishes bilingual essays, practical browser-tool guides, and selected independent projects.
+
+Last updated: 2026-09-01
+
+## Core pages
+
+- [Home](https://laconicleon.com/): Leon Reed / 简练 — writing and independent work.
+- [Writing](https://laconicleon.com/writing/): bilingual writing archive.
+- [Projects](https://laconicleon.com/projects/): selected independent projects and public product profiles.
+- [About](https://laconicleon.com/about/): biography, interests, and creative principles.
+- [Now](https://laconicleon.com/now/): current focus and recent work.
+
+## Recent writing
+
+- [How to Use a Tip Calculator With Tax and Split a Bill](https://laconicleon.com/writing/tip-calculator-tax-split-bill-guide/)
+- [How to Convert PNG to PDF in Your Browser](https://laconicleon.com/writing/2026-08-31-how-to-convert-png-to-pdf-in-your-browser/)
+- [怎么把PNG图片合并成 PDF](https://laconicleon.com/writing/2026-08-31-liulanqi-png-zhuan-pdf/)
+
+## Contact and feeds
+
+- [GitHub](https://github.com/lionchain100-alt)
+- [RSS](https://laconicleon.com/rss.xml)

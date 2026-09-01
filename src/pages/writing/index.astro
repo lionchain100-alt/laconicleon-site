@@ -23,7 +23,7 @@ const readMinutes = (body: string) => Math.max(1, Math.ceil(body.replace(/\s/g, 
       <nav><a href="/writing" class="active"><span class="zh">文章</span><span class="en" hidden>Writing</span></a><a href="/projects"><span class="zh">项目</span><span class="en" hidden>Projects</span></a><a href="/about"><span class="zh">关于</span><span class="en" hidden>About</span></a><a href="/now"><span class="zh">此刻</span><span class="en" hidden>Now</span></a></nav>
       <button id="lang" aria-label="switch language">中 <i>/</i> EN</button>
     </header>
-    <section class="intro"><h1 class="zh">文章</h1><h1 class="en" hidden>Writing</h1><p class="zh">把正在形成的想法，写成可以回看的文字。</p><p class="en" hidden>Notes on clear thinking, durable systems, and careful work.</p></section>
+    <section class="intro"><h1><span class="zh">文章</span><span class="en" hidden>Writing</span></h1><p class="zh">把正在形成的想法，写成可以回看的文字。</p><p class="en" hidden>Notes on clear thinking, durable systems, and careful work.</p></section>
     {enThemes.length > 0 && <button class="language-notice zh" id="show-english">另有英文原文，切换至英文版查看 →</button>}
     {zhThemes.length > 0 && <button class="language-notice en" id="show-chinese" hidden>Chinese originals available — switch to Chinese →</button>}
     <section class="library">
