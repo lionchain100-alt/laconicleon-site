@@ -6,7 +6,7 @@ description: A practical tip calculator walkthrough for adding restaurant tax
   and tip, checking the tip basis, and splitting the completed total.
 status: Draft — approved copy still requires owner publication
 publishedAt: 2026-09-01
-draft: true
+draft: false
 featured: false
 category: 写作
 cover: /uploads/calculator-toolkit-live-bill-tip-result-v1.png
