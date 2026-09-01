@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
 <BaseLayout title="laconicleon 编辑后台">
   <a class="project-manager" href="/admin/projects/">项目管理 ↗</a>
+  <a class="translation-manager" href="/admin/translations/">文章翻译 ↗</a>
   <div id="nc-root"><div class="loading" id="cms-loading">正在加载编辑后台…</div></div>
   <script is:inline>window.CMS_MANUAL_INIT = true;</script>
   <script is:inline defer src="https://unpkg.com/decap-cms@3.15.1/dist/decap-cms.js"></script>
@@ -17,4 +18,4 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     });
   </script>
 </BaseLayout>
-<style>.project-manager{position:fixed;z-index:9999;right:18px;bottom:18px;padding:11px 15px;background:#b3251d;color:#fff;font:12px var(--mono);box-shadow:0 4px 16px #0003}.loading{min-height:100vh;display:grid;place-items:center;font:18px var(--serif);color:#555}</style>
+<style>.project-manager,.translation-manager{position:fixed;z-index:9999;right:18px;padding:11px 15px;background:#b3251d;color:#fff;font:12px var(--mono);box-shadow:0 4px 16px #0003}.project-manager{bottom:18px}.translation-manager{bottom:62px;background:#222}.loading{min-height:100vh;display:grid;place-items:center;font:18px var(--serif);color:#555}</style>
