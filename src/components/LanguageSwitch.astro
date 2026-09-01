@@ -1,0 +1,25 @@
+<button class="language-switch" type="button" data-language-switch aria-label="Switch language" aria-pressed="false">
+  <span aria-hidden="true">中 <i>/</i> EN</span>
+  <span class="sr-only">Switch language</span>
+</button>
+
+<script>
+  const languageButton = document.querySelector<HTMLButtonElement>('[data-language-switch]');
+  const applyLanguage = (language: 'zh' | 'en') => {
+    document.documentElement.lang = language === 'en' ? 'en' : 'zh-CN';
+    document.querySelectorAll<HTMLElement>('.zh,.en').forEach((node) => node.toggleAttribute('hidden', language === 'en' ? node.classList.contains('zh') : node.classList.contains('en')));
+    languageButton?.setAttribute('aria-pressed', String(language === 'en'));
+    localStorage.setItem('laconicleon-language', language);
+    document.dispatchEvent(new CustomEvent('laconicleon:languagechange', { detail: { language } }));
+  };
+  (window as typeof window & { setLaconicleonLanguage?: (language: 'zh' | 'en') => void }).setLaconicleonLanguage = applyLanguage;
+  applyLanguage(localStorage.getItem('laconicleon-language') === 'en' ? 'en' : 'zh');
+  languageButton?.addEventListener('click', () => applyLanguage(document.documentElement.lang === 'en' ? 'zh' : 'en'));
+</script>
+
+<style>
+  .language-switch{margin-left:42px;padding:8px 0;border:0;background:transparent;color:var(--ink);cursor:pointer;font:14px var(--mono);white-space:nowrap}
+  .language-switch i{color:var(--accent);font-style:normal}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  @media(max-width:760px){.language-switch{margin-left:auto;margin-right:17px;font-size:13px}}
+</style>

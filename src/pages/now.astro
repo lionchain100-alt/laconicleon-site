@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('posts'))
@@ -11,16 +13,7 @@ const latestEn = posts.find((post) => post.data.language === 'en');
 
 <BaseLayout title="此刻 — laconicleon" description="Leon Reed / 简练此刻正在做的事。">
   <main>
-    <header>
-      <a class="brand" href="/"><img src="/brand-seal-vertical.png" alt="练"/><span>laconicleon</span></a>
-      <nav>
-        <a href="/writing"><span class="zh">文章</span><span class="en" hidden>Writing</span></a>
-        <a href="/projects"><span class="zh">项目</span><span class="en" hidden>Projects</span></a>
-        <a href="/about"><span class="zh">关于</span><span class="en" hidden>About</span></a>
-        <a class="active" href="/now"><span class="zh">此刻</span><span class="en" hidden>Now</span></a>
-      </nav>
-      <button id="lang">中 <i>/</i> EN</button>
-    </header>
+    <SiteHeader active="now" />
     <section class="hero">
       <p class="label"><span class="zh">此刻</span><span class="en" hidden>Now</span></p>
       <h1><span class="zh">把零散的笔记，<br/>写成完整的文章。</span><span class="en" hidden>Turning fragments<br/>into finished essays.</span></h1>
@@ -45,31 +38,14 @@ const latestEn = posts.find((post) => post.data.language === 'en');
         {latestEn && <a class="en" href={`/writing/${latestEn.id}`} hidden>{latestEn.data.title}<b>→</b></a>}
       </div>
     </div>
-    <footer><span class="zh">最后更新：2026 年 8 月</span><span class="en" hidden>Last updated: August 2026</span></footer>
+    <SiteFooter><span class="zh">最后更新：2026 年 8 月</span><span class="en" hidden>Last updated: August 2026</span></SiteFooter>
   </main>
-  <script>
-    let l: 'zh'|'en' = localStorage.getItem('laconicleon-language') === 'en' ? 'en' : 'zh';
-    const r = () => {
-      document.documentElement.lang = l === 'en' ? 'en' : 'zh-CN';
-      document.querySelectorAll<HTMLElement>('.zh,.en').forEach((n) => n.toggleAttribute('hidden', l === 'en' ? n.classList.contains('zh') : n.classList.contains('en')));
-      localStorage.setItem('laconicleon-language', l);
-    };
-    document.querySelector('#lang')?.addEventListener('click', () => { l = l === 'en' ? 'zh' : 'en'; r(); });
-    r();
-  </script>
 </BaseLayout>
 
 <style>
   [hidden]{display:none!important}
   main{max-width:1450px;margin:auto;padding:0 42px}
-  header{height:105px;display:flex;align-items:center;border-bottom:1px solid var(--ink)}
-  .brand{display:flex;align-items:center;gap:16px;font:500 31px var(--display)}
-  .brand img{width:38px;height:55px;object-fit:contain}
-  nav{display:flex;gap:43px;margin-left:auto;font:16px var(--serif)}
-  nav a{padding:11px 0;border-bottom:2px solid transparent}
-  .active{color:var(--accent);border-color:var(--accent)}
-  button{margin-left:42px;border:0;background:none;cursor:pointer;font:14px var(--mono)}
-  button i,.label{color:var(--accent);font-style:normal}
+  .label{color:var(--accent);font-style:normal}
   .hero{padding:92px 8% 76px;border-bottom:1px solid var(--ink)}
   .label{font:13px var(--mono);margin:0 0 20px}
   h1{font:500 clamp(50px,6.3vw,88px)/1.16 var(--serif);letter-spacing:-.07em;margin:0}
@@ -82,6 +58,6 @@ const latestEn = posts.find((post) => post.data.language === 'en');
   .grid h2{font:500 25px/1.5 var(--serif);margin:0}
   .grid a{display:flex;justify-content:space-between;border-bottom:1px solid var(--accent);padding-bottom:9px;color:var(--accent);font:20px/1.45 var(--serif)}
   .grid b{font:24px var(--sans);font-weight:400}
-  footer{padding:24px 8% 52px;color:var(--muted);font:12px var(--mono)}
-  @media(max-width:760px){main{padding:0 20px}header{height:75px}.brand{font-size:25px}.brand img{width:29px;height:43px}nav{display:none}button{margin-left:auto}.hero{padding:60px 0}h1{font-size:51px}.now-lion{height:190px}.grid{display:block}.grid>div{min-height:0;padding:29px 0;border-left:0;border-top:1px solid var(--ink)}.grid>div:first-child{border-top:0}footer{padding:22px 0 45px}}
+  .site-footer{padding:24px 8% 52px;color:var(--muted);font:12px var(--mono)}
+  @media(max-width:760px){main{padding:0 20px}.hero{padding:60px 0}h1{font-size:51px}.now-lion{height:190px}.grid{display:block}.grid>div{min-height:0;padding:29px 0;border-left:0;border-top:1px solid var(--ink)}.grid>div:first-child{border-top:0}.site-footer{padding:22px 0 45px}}
 </style>

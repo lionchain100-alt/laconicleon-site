@@ -6,6 +6,8 @@
       "status": "published",
       "summaryZh": "婚礼座位安排工具",
       "summaryEn": "Wedding seating chart maker project",
+      "contextZh": "面向婚礼现场的座位编排体验：把宾客、桌位与关系梳理成可快速调整、可直接交付的座位图。",
+      "contextEn": "A planning workspace for turning guests, tables, and relationships into a seating chart that is easy to adjust and ready to share.",
       "demoUrl": "https://seatingkit.com/",
       "image": "/project-seating-chart-maker.png",
       "updatedAt": "2026-08-31T13:35:50.548Z"

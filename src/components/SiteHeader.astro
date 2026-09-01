@@ -1,0 +1,63 @@
+---
+import LanguageSwitch from './LanguageSwitch.astro';
+
+interface Props { active?: 'writing' | 'projects' | 'about' | 'now'; }
+const { active } = Astro.props;
+const links = [
+  { key: 'writing', href: '/writing', zh: '文章', en: 'Writing' },
+  { key: 'projects', href: '/projects', zh: '项目', en: 'Projects' },
+  { key: 'about', href: '/about', zh: '关于', en: 'About' },
+  { key: 'now', href: '/now', zh: '此刻', en: 'Now' },
+] as const;
+---
+
+<header class="site-header">
+  <a class="brand" href="/"><img src="/brand-seal-vertical.png" alt="练"/><span>laconicleon</span></a>
+  <nav class="primary-nav" aria-label="Primary navigation">
+    {links.map((link) => <a class:list={{ active: active === link.key }} href={link.href}><span class="zh">{link.zh}</span><span class="en" hidden>{link.en}</span></a>)}
+  </nav>
+  <LanguageSwitch />
+  <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="site-navigation">
+    <i></i><i></i>
+  </button>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('.site-header');
+  const toggle = header?.querySelector<HTMLButtonElement>('.menu-toggle');
+  const nav = header?.querySelector<HTMLElement>('.primary-nav');
+  const close = () => {
+    header?.classList.remove('menu-open');
+    toggle?.setAttribute('aria-expanded', 'false');
+    toggle?.setAttribute('aria-label', 'Open navigation');
+  };
+  toggle?.addEventListener('click', () => {
+    const next = !header?.classList.contains('menu-open');
+    header?.classList.toggle('menu-open', next);
+    toggle.setAttribute('aria-expanded', String(next));
+    toggle.setAttribute('aria-label', next ? 'Close navigation' : 'Open navigation');
+  });
+  nav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', close));
+  addEventListener('resize', () => { if (innerWidth > 760) close(); }, { passive: true });
+</script>
+
+<style>
+  .site-header{position:relative;z-index:4;height:105px;display:flex;align-items:center;border-bottom:1px solid var(--ink)}
+  .brand{display:flex;align-items:center;gap:16px;font:500 31px var(--display);white-space:nowrap}
+  .brand img{width:38px;height:55px;object-fit:contain}
+  .primary-nav{display:flex;gap:43px;margin-left:auto;font:16px var(--serif)}
+  .primary-nav a{padding:11px 0;border-bottom:2px solid transparent}
+  .primary-nav a.active{color:var(--accent);border-color:var(--accent)}
+  .menu-toggle{display:none}
+  @media(max-width:760px){
+    .site-header{height:75px}
+    .brand{font-size:25px}.brand img{width:29px;height:43px}
+    .primary-nav{position:absolute;top:calc(100% + 1px);right:0;left:0;display:grid;grid-template-columns:1fr 1fr;gap:0;margin:0;padding:9px 20px 20px;border-bottom:1px solid var(--ink);background:rgba(255,253,250,.97);backdrop-filter:blur(14px);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .18s ease,transform .18s ease,visibility .18s}
+    .menu-open .primary-nav{opacity:1;visibility:visible;transform:none}
+    .primary-nav a{padding:17px 0;border-bottom:1px solid var(--line);font-size:18px}
+    .primary-nav a:nth-child(odd){padding-right:18px}.primary-nav a:nth-child(even){padding-left:18px;border-left:1px solid var(--line)}
+    .menu-toggle{display:grid;place-content:center;gap:6px;width:34px;height:40px;padding:0;border:0;background:transparent;cursor:pointer}
+    .menu-toggle i{display:block;width:20px;height:1px;background:var(--ink);transition:transform .18s ease}
+    .menu-open .menu-toggle i:first-child{transform:translateY(3.5px) rotate(45deg)}.menu-open .menu-toggle i:last-child{transform:translateY(-3.5px) rotate(-45deg)}
+  }
+</style>

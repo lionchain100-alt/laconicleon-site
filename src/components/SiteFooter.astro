@@ -1,0 +1,10 @@
+---
+interface Props { class?: string; }
+const { class: className } = Astro.props;
+---
+
+<footer class:list={['site-footer', className]}><slot /></footer>
+
+<style>
+  .site-footer{border-top:1px solid var(--ink)}
+</style>
