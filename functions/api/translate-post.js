@@ -63,24 +63,33 @@ export async function onRequestPost({ request, env }) {
   if (!title || !description || !body) return json({ error: '文章标题、摘要和正文不能为空。' }, { status: 400 });
 
   try {
-    const metadataInstruction = 'Translate this English blog title and description into natural Simplified Chinese. Return exactly one valid JSON object: {"title":"Chinese title","description":"Chinese description","tags":["Chinese tag"]}. No markdown, no commentary, no placeholders.';
+    const metadataInstruction = 'You are the Chinese editor for a thoughtful personal website. Adapt this English title and description into idiomatic, restrained Simplified Chinese. Do not translate word by word. Preserve facts and the author\'s point of view, but choose the phrasing a Chinese essayist would naturally use. Avoid translationese, slogans, empty praise, and formulaic AI language. Return exactly one valid JSON object: {"title":"Chinese title","description":"Chinese description","tags":["Chinese tag"]}. No markdown, no commentary, no placeholders.';
     const metadataResult = await env.AI.run('@cf/zai-org/glm-4.7-flash', {
       max_completion_tokens: 700,
-      temperature: 0.15,
+      temperature: 0.35,
       chat_template_kwargs: { enable_thinking: false },
       messages: [{ role: 'system', content: metadataInstruction }, { role: 'user', content: `TITLE:\n${title}\n\nDESCRIPTION:\n${description}` }],
       response_format: { type: 'json_object' },
     });
     const metadata = parseMetadata(metadataResult);
-    const bodyInstruction = 'Translate the supplied English blog post into natural, accurate Simplified Chinese. Preserve all Markdown headings, lists, links, inline code, numbers, currencies, percentages, equations, and meaning. Return only the translated Markdown body. Do not include YAML frontmatter, code fences, commentary, placeholders, or ellipses.';
+    const referenceInstruction = 'Create a faithful Simplified Chinese semantic reference from this English Markdown article. It is for an editor to check facts, not for publication. Preserve every heading, list, link, inline code, number, currency, percentage, equation, warning, and concrete claim. Use clear Chinese, but do not add interpretation, examples, or facts. Return only Markdown. No YAML frontmatter, code fences, commentary, placeholders, or ellipses.';
+    const referenceResult = await env.AI.run('@cf/zai-org/glm-4.7-flash', {
+      max_completion_tokens: 4096,
+      temperature: 0.05,
+      chat_template_kwargs: { enable_thinking: false },
+      messages: [{ role: 'system', content: referenceInstruction }, { role: 'user', content: body }],
+    });
+    const referenceBody = cleanMarkdown(referenceResult);
+    if (!referenceBody || referenceBody.length < 20) throw new Error('语义参考稿不完整');
+    const bodyInstruction = 'You are an experienced Chinese nonfiction editor writing for laconicleon, a personal site with a calm, precise voice. Turn the supplied semantic reference into a fluent standalone Simplified Chinese essay. Use the English original only to verify facts. Do not translate sentence by sentence: split or merge sentences, change clause order, and rebuild transitions when that reads better in Chinese. Keep the author\'s first-person voice when present. Preserve all Markdown headings, lists, links, inline code, code blocks, numbers, currencies, percentages, equations, and factual claims. Do not invent examples, sources, claims, or a stronger conclusion. Avoid translationese and AI habits: unnecessary “此外/然而/通过…实现”, overblown praise, “不仅…而且…”, slogan-like endings, repeated three-part lists, and excessive em dashes. Prefer direct verbs, concrete nouns, varied sentence rhythm, and restrained wording. Return only the publication-ready Markdown body. No YAML frontmatter, code fences, commentary, placeholders, or ellipses.';
     const bodyResult = await env.AI.run('@cf/zai-org/glm-4.7-flash', {
       max_completion_tokens: 4096,
-      temperature: 0.1,
+      temperature: 0.42,
       chat_template_kwargs: { enable_thinking: false },
-      messages: [{ role: 'system', content: bodyInstruction }, { role: 'user', content: body }],
+      messages: [{ role: 'system', content: bodyInstruction }, { role: 'user', content: `ENGLISH ORIGINAL (fact check only):\n${body}\n\nCHINESE SEMANTIC REFERENCE (rewrite this):\n${referenceBody}` }],
     });
-    const translated = { ...metadata, body: cleanMarkdown(bodyResult) };
-    if (!translated.title || !translated.description || !translated.body || translated.body.length < 20) throw new Error('翻译内容不完整');
+    const translated = { ...metadata, body: cleanMarkdown(bodyResult), referenceBody };
+    if (!translated.title || !translated.description || !translated.body || translated.body.length < 20) throw new Error('中文成稿不完整');
     return json(translated);
   } catch (error) {
     console.error('Post translation failed', error instanceof Error ? error.message : 'unknown error');
