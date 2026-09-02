@@ -39,8 +39,8 @@ const displayName = (name: string) => name.split('-').map((part) => part[0]?.toU
           <p class="type"><span class="zh">{project.visibility === 'private' ? '独立项目' : '开源项目'}</span><span class="en" hidden>{project.visibility === 'private' ? 'Independent project' : 'Open-source project'}</span></p>
           <h2>{displayName(project.name)}</h2>
           <p class="summary zh">{project.summaryZh}</p><p class="summary en" hidden>{project.summaryEn}</p>
-          <p class="context zh">{project.contextZh}</p>
-          <p class="context en" hidden>{project.contextEn}</p>
+          {project.contextZh && <p class="context zh">{project.contextZh}</p>}
+          {project.contextEn && <p class="context en" hidden>{project.contextEn}</p>}
           {project.demoUrl && <a class="visit" href={project.demoUrl} target="_blank" rel="noreferrer"><span class="zh">访问项目</span><span class="en" hidden>Visit project</span> <b>↗</b></a>}
         </div>
         <figure class="project-shot">

@@ -20,6 +20,8 @@ function parseModelResponse(result) {
   return {
     summaryZh: cleanSummary(parsed.summaryZh, 180),
     summaryEn: cleanSummary(parsed.summaryEn, 260),
+    contextZh: cleanSummary(parsed.contextZh, 260),
+    contextEn: cleanSummary(parsed.contextEn, 360),
   };
 }
 
@@ -42,15 +44,15 @@ export async function onRequestPost({ request, env }) {
   if (!repository || !readme.trim()) return json({ error: '需要项目名和 README 内容。' }, { status: 400 });
 
   try {
-    const instruction = 'Write concise, factual portfolio descriptions from a repository README. Return exactly one JSON object with two non-empty string values: {"summaryZh":"Chinese description","summaryEn":"English description"}. Do not output markdown, explanations, placeholders, or ellipses. Omit secrets, URLs, installation commands, and unnecessary implementation details. Chinese: at most 80 Chinese characters. English: at most 150 characters. If the README is sparse, state only what it supports.';
+    const instruction = 'Write concise, factual portfolio copy from a repository README. Return exactly one JSON object with four non-empty string values: {"summaryZh":"short Chinese label","summaryEn":"short English label","contextZh":"Chinese explanation","contextEn":"English explanation"}. Do not output markdown, explanations, placeholders, or ellipses. Omit secrets, URLs, installation commands, implementation minutiae, and claims not supported by the README. summaryZh: at most 36 Chinese characters. summaryEn: at most 80 characters. contextZh: at most 110 Chinese characters. contextEn: at most 180 characters. If the README is sparse, state only what it supports.';
     const result = await env.AI.run('@cf/meta/llama-3.2-3b-instruct', {
       raw: true,
-      max_tokens: 220,
+      max_tokens: 380,
       temperature: 0.2,
       prompt: `<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n${instruction}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nRepository: ${repository}\n\nREADME:\n${readme}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n`,
     });
     const summaries = parseModelResponse(result);
-    if (!summaries.summaryZh || !summaries.summaryEn) throw new Error('简介不完整');
+    if (!summaries.summaryZh || !summaries.summaryEn || !summaries.contextZh || !summaries.contextEn) throw new Error('项目档案不完整');
     return json(summaries);
   } catch (error) {
     console.error('Project summary generation failed', error instanceof Error ? error.message : 'unknown error');
