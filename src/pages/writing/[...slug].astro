@@ -7,7 +7,7 @@ export async function getStaticPaths() { return (await getCollection('posts')).m
 const { post } = Astro.props;
 const { Content, headings } = await render(post);
 const isZh = post.data.language === 'zh';
-const languagePosts = allPosts.filter((entry) => !entry.data.draft && entry.data.language === post.data.language).sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+const languagePosts = allPosts.filter((entry) => !entry.data.draft && entry.data.language === post.data.language).sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime() || b.id.localeCompare(a.id));
 const position = languagePosts.findIndex((entry) => entry.id === post.id);
 const newer = languagePosts[position - 1];
 const older = languagePosts[position + 1];

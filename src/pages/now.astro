@@ -6,7 +6,7 @@ import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('posts'))
   .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime() || b.id.localeCompare(a.id));
 const latestZh = posts.find((post) => post.data.language === 'zh');
 const latestEn = posts.find((post) => post.data.language === 'en');
 ---

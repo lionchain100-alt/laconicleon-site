@@ -13,10 +13,18 @@ collections:
     folder: src/content/posts
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{publishedAt | date('YYYY-MM-DD HH:mm')}} · {{title}}"
+    sortable_fields: [publishedAt, commit_date, title, language, draft]
+    sort: "publishedAt:desc"
+    view_filters:
+      - { label: "草稿", field: draft, pattern: true }
+      - { label: "已发布", field: draft, pattern: false }
+      - { label: "中文", field: language, pattern: zh }
+      - { label: "English", field: language, pattern: en }
     fields:
       - { label: 标题, name: title, widget: string }
       - { label: 摘要, name: description, widget: text }
-      - { label: 发布日期, name: publishedAt, widget: datetime, format: "YYYY-MM-DD" }
+      - { label: 发布日期, name: publishedAt, widget: datetime, format: "YYYY-MM-DDTHH:mm:ssZ", hint: "精确到分钟；后台与网站均按此时间从新到旧排列。" }
       - { label: 草稿, name: draft, widget: boolean, default: false, required: false }
       - { label: 首页精选, name: featured, widget: boolean, default: false, required: false }
       - { label: 分类, name: category, widget: string, default: "写作", required: false }

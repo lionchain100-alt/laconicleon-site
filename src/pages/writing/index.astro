@@ -5,7 +5,7 @@ import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('posts'))
   .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime() || b.id.localeCompare(a.id));
 const themes = [
   { key: 'writing', zh: '写作', en: 'Writing' },
   { key: 'tools', zh: '工具', en: 'Tools' },
