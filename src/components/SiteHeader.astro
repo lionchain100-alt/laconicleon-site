@@ -1,13 +1,14 @@
 ---
 import LanguageSwitch from './LanguageSwitch.astro';
 
-interface Props { active?: 'writing' | 'projects' | 'about' | 'now'; }
+interface Props { active?: 'writing' | 'projects' | 'about' | 'now' | 'contact'; }
 const { active } = Astro.props;
 const links = [
   { key: 'writing', href: '/writing', zh: '文章', en: 'Writing' },
   { key: 'projects', href: '/projects', zh: '项目', en: 'Projects' },
   { key: 'about', href: '/about', zh: '关于', en: 'About' },
   { key: 'now', href: '/now', zh: '此刻', en: 'Now' },
+  { key: 'contact', href: '/contact', zh: '联系', en: 'Contact' },
 ] as const;
 ---
 

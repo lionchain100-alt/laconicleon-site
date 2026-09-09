@@ -11,6 +11,7 @@ Last updated: 2026-09-01
 - [Projects](https://laconicleon.com/projects/): selected independent projects and public product profiles.
 - [About](https://laconicleon.com/about/): biography, interests, and creative principles.
 - [Now](https://laconicleon.com/now/): current focus and recent work.
+- [Contact](https://laconicleon.com/contact/): ways to start a thoughtful project or creative conversation with Leon.
 
 ## Recent writing
 

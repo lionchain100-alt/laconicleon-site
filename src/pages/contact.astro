@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+---
+
+<BaseLayout title="联系 — laconicleon" description="联系 Leon Reed / 简练，讨论写作、产品、工具与有长期价值的合作。">
+  <main>
+    <SiteHeader active="contact" />
+    <section class="hero">
+      <div>
+        <p class="eyebrow"><span class="zh">联系</span><span class="en" hidden>Contact</span></p>
+        <h1><span class="zh">留一封简短的来信。</span><span class="en" hidden>A short note is enough.</span></h1>
+      </div>
+      <p class="lead zh">如果你正做一个需要被认真打磨的产品、内容或独立项目，欢迎告诉我它是什么、你在思考什么，以及我可以如何参与。</p>
+      <p class="lead en" hidden>If you are shaping a product, piece of writing, or independent project that deserves careful attention, tell me what it is, what you are thinking through, and where I might be useful.</p>
+    </section>
+
+    <section class="fit">
+      <p class="eyebrow"><span class="zh">适合聊聊</span><span class="en" hidden>Good reasons to write</span></p>
+      <div class="fit-list">
+        <article><b>01</b><h2><span class="zh">产品与体验</span><span class="en" hidden>Product &amp; experience</span></h2><p class="zh">独立工具、内容产品与更清楚的交互路径。</p><p class="en" hidden>Independent tools, content products, and clearer interaction paths.</p></article>
+        <article><b>02</b><h2><span class="zh">写作与内容</span><span class="en" hidden>Writing &amp; content</span></h2><p class="zh">把复杂的想法整理成有用、耐读的表达。</p><p class="en" hidden>Turning complex ideas into useful writing that holds up over time.</p></article>
+        <article><b>03</b><h2><span class="zh">长期协作</span><span class="en" hidden>Long-term collaboration</span></h2><p class="zh">有明确方向、愿意慢慢做深的创作与项目。</p><p class="en" hidden>Creative work with a clear direction and room to go deeper over time.</p></article>
+      </div>
+    </section>
+
+    <section class="channels">
+      <div class="channels-heading"><p class="eyebrow"><span class="zh">找到我</span><span class="en" hidden>Find me</span></p><h2><span class="zh">从公开的作品开始认识彼此。</span><span class="en" hidden>Start with the work already in public.</span></h2></div>
+      <div class="channel-list">
+        <a href="https://github.com/lionchain100-alt" target="_blank" rel="noreferrer"><span class="number">01</span><span><small>GITHUB</small><strong><span class="zh">项目与技术交流</span><span class="en" hidden>Projects &amp; technical work</span></strong></span><b>↗</b></a>
+        <a href="https://www.youtube.com/shorts/b_L4aqNNn00" target="_blank" rel="noreferrer"><span class="number">02</span><span><small>YOUTUBE</small><strong><span class="zh">视频与创作记录</span><span class="en" hidden>Video &amp; creative notes</span></strong></span><b>↗</b></a>
+        <a href="/writing"><span class="number">03</span><span><small>WRITING</small><strong><span class="zh">先读几篇文章</span><span class="en" hidden>Read a few essays first</span></strong></span><b>→</b></a>
+      </div>
+    </section>
+
+    <section class="email-note">
+      <p class="eyebrow"><span class="zh">邮件联系</span><span class="en" hidden>Email</span></p>
+      <div><h2><span class="zh">公开邮件通道正在准备中。</span><span class="en" hidden>A public email channel is being prepared.</span></h2><p class="zh">在此之前，欢迎从 GitHub 或 YouTube 的公开入口开始；我会把正式联系表单放在这里。</p><p class="en" hidden>Until then, GitHub and YouTube are the best public starting points. A proper contact form will live here.</p></div>
+    </section>
+
+    <SiteFooter><span class="zh">laconicleon · Leon Reed / 简练</span><span class="en" hidden>laconicleon · Leon Reed / 简练</span></SiteFooter>
+  </main>
+</BaseLayout>
+
+<style>
+  [hidden]{display:none!important}
+  main{max-width:1450px;margin:auto;padding:0 42px}
+  .eyebrow{margin:0;color:var(--accent);font:12px var(--mono);letter-spacing:.08em}
+  .hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr);gap:11%;padding:92px 8% 85px;border-bottom:1px solid var(--ink)}
+  h1{max-width:670px;margin:24px 0 0;font:500 clamp(54px,6.7vw,94px)/.98 var(--serif);letter-spacing:-.085em;text-wrap:balance}
+  .lead{align-self:end;max-width:420px;margin:0 0 5px;color:var(--muted);font:20px/1.75 var(--serif)}
+  .fit{padding:42px 8% 58px;border-bottom:1px solid var(--ink)}
+  .fit-list{display:grid;grid-template-columns:repeat(3,1fr);margin-top:31px}
+  .fit-list article{min-height:202px;padding:0 10% 0 0;border-right:1px solid var(--line)}
+  .fit-list article+article{padding-left:10%}.fit-list article:last-child{border:0}
+  .fit-list b{color:var(--accent);font:15px var(--mono);font-weight:400}
+  .fit-list h2{margin:27px 0 8px;font:500 26px var(--serif);letter-spacing:-.04em}
+  .fit-list p{margin:0;color:var(--muted);font:16px/1.65 var(--serif)}
+  .channels{display:grid;grid-template-columns:minmax(260px,.84fr) minmax(420px,1.16fr);gap:8%;padding:58px 8% 63px;border-bottom:1px solid var(--ink)}
+  .channels-heading h2{max-width:350px;margin:23px 0 0;font:500 37px/1.26 var(--serif);letter-spacing:-.06em}
+  .channel-list{border-top:1px solid var(--ink)}
+  .channel-list a{display:grid;grid-template-columns:52px 1fr 28px;gap:16px;align-items:center;padding:20px 3px;border-bottom:1px solid var(--line);transition:padding .18s ease,background .18s ease}
+  .channel-list a:hover{padding-left:13px;background:rgba(189,45,45,.035)}
+  .channel-list .number,.channel-list small{font:11px var(--mono)}
+  .channel-list .number{color:var(--accent)}.channel-list small{display:block;margin-bottom:4px;color:var(--muted);letter-spacing:.08em}
+  .channel-list strong{font:500 22px var(--serif)}.channel-list b{color:var(--accent);font:24px/1 var(--sans);font-weight:400}
+  .email-note{display:grid;grid-template-columns:180px 1fr;gap:36px;padding:38px 8% 45px;border-bottom:1px solid var(--ink)}
+  .email-note h2{margin:0;font:500 29px/1.35 var(--serif);letter-spacing:-.05em}.email-note p:not(.eyebrow){max-width:620px;margin:13px 0 0;color:var(--muted);font:16px/1.7 var(--serif)}
+  .site-footer{padding:21px 8% 45px;color:var(--muted);font:12px var(--mono)}
+  @media(max-width:760px){main{padding:0 20px}.hero{display:block;padding:59px 0 55px}h1{font-size:56px}.lead{margin-top:35px;font-size:18px}.fit{padding:30px 0 10px}.fit-list{display:block;margin-top:22px}.fit-list article,.fit-list article+article{min-height:0;padding:24px 0;border:0;border-top:1px solid var(--line)}.fit-list h2{margin:14px 0 6px;font-size:25px}.channels{display:block;padding:37px 0 45px}.channels-heading h2{margin:16px 0 35px;font-size:31px}.channel-list a{grid-template-columns:36px 1fr 20px;gap:8px;padding:18px 0}.channel-list a:hover{padding-left:5px}.channel-list strong{font-size:19px}.email-note{display:block;padding:29px 0}.email-note h2{margin-top:17px;font-size:27px}.site-footer{padding:21px 0 41px}}
+</style>
